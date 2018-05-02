@@ -3,6 +3,7 @@
 #include <math.h>
 #include "CMyVector.h"
 
+double H = 0.00000001;
 double CMyVector::length()
 {
 	double value = 0;
@@ -11,6 +12,15 @@ double CMyVector::length()
 
 	//Wurzel selber berechnen ?
 	return sqrt(value);
+}
+
+CMyVector::CMyVector(const CMyVector &v)
+{
+	_dimension = v._dimension;
+	double *values = new double[v._dimension];
+	for (int i = 0; i < _dimension; i++)
+		values[i] = v[i];
+
 }
 
 CMyVector CMyVector::operator+(CMyVector vector)
@@ -53,4 +63,22 @@ void CMyVector::print()
 		std::cout << values[i] << " ";
 	}
 	std::cout << ") ";
+}
+
+CMyVector CMyVector::gradient(CMyVector x, double(*function)(CMyVector x))
+{
+	CMyVector g = CMyVector(x.getDimension());
+	for (int i = 0; i < x.getDimension(); i++)
+	{
+		//x.print();
+		CMyVector tmp = CMyVector(2);
+		tmp = x;
+		tmp.print();
+		tmp[i] = tmp[i] + H;
+		tmp.print();
+		double tmpd = (function(tmp) - function(x));
+		g[i] =  tmpd / H;
+	}
+	g.print();
+	return g;
 }
