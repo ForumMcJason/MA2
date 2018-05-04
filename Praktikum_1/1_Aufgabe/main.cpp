@@ -1,11 +1,19 @@
 #include <iostream>
+#include <math.h>
 #include "CMyVector.h"
 
-double func(CMyVector v) 
+double func1(CMyVector v) 
+{
+	double x = v[0];
+	double y = v[1];
+	return sin(x + (y*y)) + (y*y*y) - 6 * (y*y) + 9 * y;
+}
+
+double func2(CMyVector v)
 {
 	double x = v[0] * v[0];
 	double y = v[1] * v[1];
-	return ( x + y );
+	return (x + y);
 }
 
 int main()
@@ -49,9 +57,12 @@ int main()
 	function_values[1] = 3.0;
 
 	CMyVector p = CMyVector(2);
+	p[0] = 2.0;
+	p[1] = 3.0;
+	CMyVector v4 = gradient(p, *func1);
 	p[0] = 1.0;
-	p[1] = 2.0;
-	CMyVector v4 = function_values.gradient(p, *func);
+	p[1] = 1.5;
+	v4 = gradient(p, *func1);
 	system("PAUSE");
 	return 0;
 }

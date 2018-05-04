@@ -7,7 +7,7 @@ private:
 	double* values;
 public:
 	CMyVector() {}
-	CMyVector(const CMyVector &v);
+	/*CMyVector(const CMyVector &v);*/
 	CMyVector(int dimension) 
 	{
 		_dimension = dimension;
@@ -23,5 +23,5 @@ public:
 	CMyVector operator+ (CMyVector vector);
 	CMyVector operator* (double lambda);
 
-	CMyVector gradient(CMyVector x, double(*function)(CMyVector x));
 };
+CMyVector gradient(CMyVector x, double(*function)(CMyVector x));

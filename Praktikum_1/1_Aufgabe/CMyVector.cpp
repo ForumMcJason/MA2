@@ -3,7 +3,7 @@
 #include <math.h>
 #include "CMyVector.h"
 
-double H = 0.00000001;
+
 double CMyVector::length()
 {
 	double value = 0;
@@ -14,14 +14,14 @@ double CMyVector::length()
 	return sqrt(value);
 }
 
-CMyVector::CMyVector(const CMyVector &v)
-{
-	_dimension = v._dimension;
-	double *values = new double[v._dimension];
-	for (int i = 0; i < _dimension; i++)
-		values[i] = v[i];
-
-}
+//CMyVector::CMyVector(const CMyVector &v)
+//{
+//	_dimension = v._dimension;
+//	double *values = new double[v._dimension];
+//	for (int i = 0; i < _dimension; i++)
+//		values[i] = v[i];
+//
+//}
 
 CMyVector CMyVector::operator+(CMyVector vector)
 {	
@@ -65,19 +65,17 @@ void CMyVector::print()
 	std::cout << ") ";
 }
 
-CMyVector CMyVector::gradient(CMyVector x, double(*function)(CMyVector x))
+CMyVector gradient(CMyVector x, double(*function)(CMyVector x))
 {
+	double h = 1e-8;
 	CMyVector g = CMyVector(x.getDimension());
 	for (int i = 0; i < x.getDimension(); i++)
 	{
-		//x.print();
-		CMyVector tmp = CMyVector(2);
-		tmp = x;
-		tmp.print();
-		tmp[i] = tmp[i] + H;
-		tmp.print();
-		double tmpd = (function(tmp) - function(x));
-		g[i] =  tmpd / H;
+		x[i] = x[i] + h;
+		double tmpd = function(x);
+		x[i] -= h;
+		tmpd -= function(x);
+		g[i] = tmpd / h;
 	}
 	g.print();
 	return g;
